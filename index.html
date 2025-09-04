@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookmarker</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="styleCSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="styleCSS/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <video autoplay muted loop id="bg-video">
+        <source src="image/hederBGV.mp4" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+    </header>
+
+    <div class="bg-black d-flex align-items-center vh-100" id="login">
+      <div id="form" class="w-50 py-0 m-auto">
+        <h2 class="address my-4 text-center">Smart Login System</h2>
+
+        <div class=" d-flex flex-column fm-pacifico gap-4 mb-3">
+          <input
+            type="text"
+            class="form-control py-2"
+            id="exampleFormControlInput1"
+            placeholder="Enter your Name "
+          />
+          <input
+            type="email"
+            class="form-control py-2"
+            id="exampleFormControlInput1"
+            placeholder="Enter your email"
+          />
+          <input
+            type="password"
+            class="form-control py-2 "
+            id="exampleFormControlInput1"
+            placeholder="Enter your password"
+          />
+          <button id="Submit">Log in</button>
+          <p>You have an account? <a href="#"> Signin</a></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="scriptCode/bootstrap.min.js"></script>
+    <script src="scriptCode/main.js"></script>
+  </body>
+</html>
