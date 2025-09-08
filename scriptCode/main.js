@@ -84,7 +84,7 @@ Submit.onclick = function () {
       errorBox.classList.add("d-none");
       UserPage1 = inputName.value;
       emailPage1 = inputEmail.value;
-      window.location.href = `one.html?name=${encodeURIComponent(
+      window.location.href = `scriptCode/one.html?name=${encodeURIComponent(
         inputName.value
       )}&email=${encodeURIComponent(inputEmail.value)}`;
     } else {
@@ -99,7 +99,7 @@ Submit.onclick = function () {
   } else if (Sign.textContent.includes("SignUP")) {
     for (let i = 0; i < users.length; i++) {
       if (inputEmail.value == users[i].email && inputPassword.value == users[i].password) {
-        window.location.href = `one.html?name=${encodeURIComponent(
+        window.location.href = `scriptCode/one.html?name=${encodeURIComponent(
         users[i].name
       )}&email=${encodeURIComponent(users[i].email)}`;
         return true;
