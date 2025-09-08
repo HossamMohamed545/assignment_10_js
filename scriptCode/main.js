@@ -1,95 +1,112 @@
-var siteName = document.getElementById("SiteName");
-var siteURL = document.getElementById("SiteURL");
+var inputName = document.getElementById("inputName");
+var inputEmail = document.getElementById("inputEmail");
+var inputPassword = document.getElementById("inputPassword");
+var Sign = document.getElementById("Sign");
 var Submit = document.getElementById("Submit");
-var tbody = document.getElementById("tbody");
+var errorBox = document.getElementById("errorBox");
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-function valditionName() {
-  if (siteName.value.length < 3) {
-    alert("Site name must contain at least 3 characters");
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function valditionUrl() {
-  let url = siteURL.value.trim();
-  let pattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/[\w-]*)*\/?$/;
-  if (!pattern.test(url)) {
-    alert("Site URL must be a valid one");
+function validationEmail() {
+  let email = inputEmail.value.trim();
+  let pattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+  if (!pattern.test(email)) {
     return false;
   }
   return true;
 }
-function deletevalue() {
-  siteName.value = "";
-  siteURL.value = "";
-}
-var item;
-function itemArrey() {
-  if (localStorage.product != null) {
-    item = JSON.parse(localStorage.product);
-  } else {
-    item = [];
+
+function validatePassword() {
+  let password = inputPassword.value.trim();
+
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long.";
   }
-}
-itemArrey();
-function goToSection() {
-  document.getElementById("result").scrollIntoView({ 
-    behavior: "smooth" 
-  });
-}
-Submit.onclick = function Submit() {
-  if (valditionUrl() === true && valditionName() === true) {
-    var opject_item = {
-      name: siteName.value,
-      url: siteURL.value,
-    };
+  if (!/[A-Z]/.test(password)) {
+    return "Password must contain at least one uppercase letter.";
+  }
+  if (!/[a-z]/.test(password)) {
+    return "Password must contain at least one lowercase letter.";
+  }
+  if (!/[0-9]/.test(password)) {
+    return "Password must contain at least one number.";
+  }
+  if (!/[@$!%*?&]/.test(password)) {
+    return "Password must contain at least one special character (@, $, !, %, *, ?, &).";
+  }
 
-    item.push(opject_item);
-    localStorage.setItem("product", JSON.stringify(item));
+  return true;
+}
 
-    deletevalue();
-    tbody.innerHTML = "";  
-    addTOTable();
-    goToSection();
+inputEmail.oninput = function () {
+  if (validationEmail() == true) {
+    inputEmail.classList.remove("is-invalid");
+  } else {
+    inputEmail.classList.add("is-invalid");
   }
 };
 
-function addTOTable() {
-    tbody.innerHTML = ""; 
-  for (let i = 0; i < item.length; i++) {
-    tbody.innerHTML += `
-            <tr>
-              <td>${i + 1}</td>
-              <td>${item[i].name}</td>
-              <td>
-                <p
-                    onclick="visititem(${i})"
-                  class="d-flex gap-2 align-items-baseline py-2 px-3 border-0 rounded-3 justify-content-center bg-info hover-bg-gray my-3 mx-4"
-                >
-                  <i class="fa-solid fa-eye"></i>Visit
-                </p>
-              </td>
-              <td>
-                <p
-                  onclick="deleteITEM(${i})" class="d-flex gap-2 align-items-baseline py-2 px-3 border-0 rounded-3 justify-content-center bg-info hover-bg-gray my-3 mx-4"
-                >
-                  <i class="fa-solid fa-trash"></i>Delete
-                </p>
-              </td>
-            </tr>
-              `;
+inputPassword.oninput = function () {
+  if (validatePassword() == true) {
+    inputPassword.classList.remove("is-invalid");
+  } else {
+    inputPassword.classList.add("is-invalid");
   }
-  
-}
-function deleteITEM(i){
-    item.splice(i,1);
-    localStorage.setItem('product',JSON.stringify(item));
-    location.reload();
-}
-function visititem(numper){
-    window.open(item[numper].url);
-}
-itemArrey();
-addTOTable();
+};
+
+Sign.onclick = function () {
+  if (Sign.textContent.includes("SignUP")) {
+    Sign.innerHTML = "log In";
+    Submit.innerHTML = "Sign UP";
+    inputName.style.display = "block";
+  } else if (Sign.textContent.includes("log In")) {
+    Sign.innerHTML = "SignUP";
+    Submit.innerHTML = "Log in";
+    inputName.style.display = "none";
+  }
+};
+
+Submit.onclick = function () {
+  if (Sign.textContent.includes("log In")) {
+    for (let i = 0; i < users.length; i++) {
+      if (inputEmail.value == users[i].email) {
+        errorBox.classList.remove("d-none");
+        errorBox.innerText = "This account is already registered ⚠️";
+        return false;
+      }
+    }
+    if (validationEmail() == true && validatePassword() == true) {
+      users.push({
+        name: inputName.value,
+        email: inputEmail.value,
+        password: inputPassword.value,
+      });
+      localStorage.setItem("users", JSON.stringify(users));
+      errorBox.classList.add("d-none");
+      UserPage1 = inputName.value;
+      emailPage1 = inputEmail.value;
+      window.location.href = `../one.html?name=${encodeURIComponent(
+        inputName.value
+      )}&email=${encodeURIComponent(inputEmail.value)}`;
+    } else {
+      if (validationEmail() != true) {
+        errorBox.classList.remove("d-none");
+        errorBox.innerText = "Please enter a valid email address";
+      } else if (validatePassword() != true) {
+        errorBox.classList.remove("d-none");
+        errorBox.innerText = `${validatePassword()}`;
+      }
+    }
+  } else if (Sign.textContent.includes("SignUP")) {
+    for (let i = 0; i < users.length; i++) {
+      if (inputEmail.value == users[i].email && inputPassword.value == users[i].password) {
+        window.location.href = `../one.html?name=${encodeURIComponent(
+        users[i].name
+      )}&email=${encodeURIComponent(users[i].email)}`;
+        return true;
+      }else{
+        errorBox.classList.remove("d-none");
+        errorBox.innerText = "Invalid email or password ❌";
+      }
+    }
+  }
+};

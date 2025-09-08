@@ -21,31 +21,35 @@
       </video>
     </header>
 
-    <div class="bg-black d-flex align-items-center vh-100" id="login">
-      <div id="form" class="w-50 py-0 m-auto">
+    <div
+      class="bg-black row container-fluid justify-content-center align-items-center vh-100"
+      id="login"
+    >
+      <div id="form" class="col-sm-12 col-md-7 col-lg-4 py-0">
         <h2 class="address my-4 text-center">Smart Login System</h2>
 
-        <div class=" d-flex flex-column fm-pacifico gap-4 mb-3">
+        <div class="d-flex flex-column fm-pacifico gap-4 mb-3">
           <input
             type="text"
             class="form-control py-2"
-            id="exampleFormControlInput1"
+            id="inputName"
             placeholder="Enter your Name "
           />
           <input
             type="email"
             class="form-control py-2"
-            id="exampleFormControlInput1"
+            id="inputEmail"
             placeholder="Enter your email"
           />
           <input
             type="password"
-            class="form-control py-2 "
-            id="exampleFormControlInput1"
+            class="form-control py-2"
+            id="inputPassword"
             placeholder="Enter your password"
           />
+          <div id="errorBox" class="alert alert-danger mt-3 d-none text-center"></div>
           <button id="Submit">Log in</button>
-          <p>You have an account? <a href="#"> Signin</a></p>
+          <p>You have an account? <a id="Sign" href="#"> SignUP</a></p>
         </div>
       </div>
     </div>
